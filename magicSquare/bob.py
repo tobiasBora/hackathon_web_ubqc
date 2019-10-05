@@ -63,7 +63,7 @@ def measC1(q1,q2,node): # implements measurements for first column of observable
 	q2.K() # flip second qubit to Y eigenbasis
 	q1.cnot(anc)
 	q2.cnot(anc)
-
+	# IDK how to flip qubits back from Y to Z basis, since K is not self inverse
 	
 	m1 = anc.measure() # measure ancilla in computational basis
 	
