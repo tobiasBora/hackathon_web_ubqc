@@ -5,6 +5,9 @@ import string
 from contextlib import ExitStack
 # Quantum library
 from cqc.pythonLib import CQCConnection
+# Create new network
+# https://softwarequtech.github.io/SimulaQron/html/ConfNodes.html
+from simulaqron.network import Network
 
 def id_generator(size=10, chars=string.ascii_uppercase):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -17,18 +20,35 @@ class MagicSquare:
             self.session_id = str(session_id)
         else:
             self.session_id = id_generator()
-        self.alice_name = "Alice_{}".format(self.session_id)
-        self.bob_name = "Bob_{}".format(self.session_id)
-        # Debug: it works
-        # self.alice_name = "Alice"
-        # self.bob_name = "Bob"
-        # Create the contexts to connect to CQC
+        ## Name of parties
+        self.alice_name = "Alice"
+        self.bob_name = "Bob"
+        
+        ## Create a new network
+        self.network_name = self.session_id
+        print("Creation of network")
+        self.log("Creation of network {}".format(self.network_name))
+        nodes = [self.alice_name, self.bob_name]
+        topology = {
+            self.alice_name: [self.bob_name],
+            self.bob_name:   [self.bob_name]
+        }
+        self.network = Network(name=self.network_name,
+                               nodes=nodes,
+                               topology=topology)
+        self.network.start()
+        self.log("Network started!")
+        ## Create the contexts to connect to CQC
         self.cqc_alice = self.global_stack.enter_context(
-            CQCConnection(self.alice_name)
+            CQCConnection(self.alice_name,
+                          network_name=self.network_name)
         )
+        self.log("Alice CQC connection done!")
         self.cqc_bob = self.global_stack.enter_context(
-            CQCConnection(self.bob_name)
+            CQCConnection(self.bob_name,
+                          network_name=self.network_name)
         )
+        self.log("Bob CQC connection done!")
         # Create two EPR pairs
         self.log("Will generate EPR pairs...")
         self.q1_a = self.cqc_alice.createEPR(self.bob_name)
@@ -71,6 +91,6 @@ def main():
             print("They have the same result :D")
         else:
             print("Grr...! They have different result :-(")
-
+            
 if __name__ == '__main__':
     main()
