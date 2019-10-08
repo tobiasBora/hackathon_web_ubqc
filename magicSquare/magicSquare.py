@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import random
 import string
+import time
 # Useful to avoid having "with ..." everywhere.
 from contextlib import ExitStack
 # Quantum library
@@ -40,27 +41,36 @@ class MagicSquare:
                                new=True)
         self.network.start()
         self.log("Network started!")
+        time.sleep(5)
         ## Create the contexts to connect to CQC
         self.cqc_alice = self.global_stack.enter_context(
             CQCConnection(self.alice_name,
-                          network_name=self.network_name)
+                          network_name=self.network_name,
+                          conn_retry_time=1)
         )
+        time.sleep(3)
         self.log("Alice CQC connection done!")
         self.cqc_bob = self.global_stack.enter_context(
             CQCConnection(self.bob_name,
-                          network_name=self.network_name)
+                          network_name=self.network_name,
+                          conn_retry_time=1)
         )
+        time.sleep(3)
         self.log("Bob CQC connection done!")
         # Create two EPR pairs
         self.log("Will generate EPR pairs...")
         self.q1_a = self.cqc_alice.createEPR(self.bob_name)
         self.log("Alice sent the first EPR pair...")
+        time.sleep(3)
         self.q1_b = self.cqc_bob.recvEPR()
         self.log("Bob received the first EPR pair...")
+        time.sleep(1)
         self.q2_a = self.cqc_alice.createEPR(self.bob_name)
         self.log("Alice sent the second EPR pair...")
+        time.sleep(1)
         self.q2_b = self.cqc_bob.recvEPR()
         self.log("Bob received the second EPR pair...")
+        time.sleep(1)
 
     def log(self, message):
         if self.debug:
@@ -122,8 +132,8 @@ def main():
     # Usually works, but sometimes times out without apparent reason:
     print("=== Let's try a single exec")
     one_exec()
-    print("=== Let's try another single exec")
-    one_exec()
+    # print("=== Let's try another single exec")
+    # one_exec()
     # Fails:
     print("=== Let's try two parallel exec")
     parallel_epr()
