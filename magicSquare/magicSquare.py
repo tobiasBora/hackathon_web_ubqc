@@ -120,8 +120,12 @@ def one_exec():
 
 def main():
     # Usually works, but sometimes times out without apparent reason:
+    print("=== Let's try a single exec")
+    one_exec()
+    print("=== Let's try another single exec")
     one_exec()
     # Fails:
+    print("=== Let's try two parallel exec")
     parallel_epr()
             
 if __name__ == '__main__':
