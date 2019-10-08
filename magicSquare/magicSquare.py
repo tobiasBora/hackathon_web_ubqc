@@ -79,9 +79,33 @@ class MagicSquare:
         self.log("Bob measured {}.".format(m0))
         return m0
 
-def main():
+
+def parallel_epr():
     with ExitStack() as global_stack:
-        magic_square = MagicSquare(global_stack)
+        magic_square = MagicSquare(global_stack, debug=True)
+        magic_square.print_info()
+        magic_square2 = MagicSquare(global_stack, debug=True)
+        magic_square2.print_info()
+        ma = magic_square.alice_measurement(0)
+        mb = magic_square.bob_measurement(0)
+        ma2 = magic_square2.alice_measurement(0)
+        mb2 = magic_square2.bob_measurement(0)
+        print("Alice: {}".format(ma))
+        print("Bob: {}".format(mb))
+        print("Alice 2: {}".format(ma2))
+        print("Bob 2: {}".format(mb2))
+        if ma == mb:
+            print("They have the same result :D")
+        else:
+            print("Grr...! They have different result :-(")
+        if ma2 == mb2:
+            print("They have the same result :D")
+        else:
+            print("Grr...! They have different result :-(")
+            
+def one_exec():
+    with ExitStack() as global_stack:
+        magic_square = MagicSquare(global_stack, debug=True)
         magic_square.print_info()
         ma = magic_square.alice_measurement(0)
         mb = magic_square.bob_measurement(0)
@@ -91,6 +115,12 @@ def main():
             print("They have the same result :D")
         else:
             print("Grr...! They have different result :-(")
+
+def main():
+    # Usually works, but sometimes times out without apparent reason:
+    one_exec()
+    # Fails:
+    # parallel_epr()
             
 if __name__ == '__main__':
     main()
