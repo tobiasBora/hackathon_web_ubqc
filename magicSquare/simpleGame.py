@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from cqc.pythonLib import CQCConnection, qubit
 
 
