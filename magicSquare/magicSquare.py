@@ -35,7 +35,9 @@ class MagicSquare:
         }
         self.network = Network(name=self.network_name,
                                nodes=nodes,
-                               topology=topology)
+                               topology=topology,
+                               force=True,
+                               new=True)
         self.network.start()
         self.log("Network started!")
         ## Create the contexts to connect to CQC
@@ -120,7 +122,7 @@ def main():
     # Usually works, but sometimes times out without apparent reason:
     one_exec()
     # Fails:
-    # parallel_epr()
+    parallel_epr()
             
 if __name__ == '__main__':
     main()
