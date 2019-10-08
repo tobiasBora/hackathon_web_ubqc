@@ -125,29 +125,51 @@ class MagicSquare:
 
 def parallel_epr():
     with ExitStack() as global_stack:
+        n_row = int(input("Which row do you want? [0,1,2]"))
+        n_col = int(input("Which column do you want? [0,1,2]"))
+        n_row2 = int(input("Which row do you want? [0,1,2]"))
+        n_col2 = int(input("Which column do you want? [0,1,2]"))
         magic_square = MagicSquare(global_stack, debug=True)
         magic_square.print_info()
         magic_square2 = MagicSquare(global_stack, debug=True)
         magic_square2.print_info()
-        ma = magic_square.alice_measurement(0)
-        mb = magic_square.bob_measurement(0)
-        ma2 = magic_square2.alice_measurement(0)
-        mb2 = magic_square2.bob_measurement(0)
+        ma = magic_square.alice_measurement(n_row)
+        mb = magic_square.bob_measurement(n_col)
+        ma2 = magic_square.alice_measurement(n_row)
+        mb2 = magic_square.bob_measurement(n_col)
         print("Alice: {}".format(ma))
         print("Bob: {}".format(mb))
         print("Alice 2: {}".format(ma2))
         print("Bob 2: {}".format(mb2))
-        if ma == mb:
+        print("--- First run:")
+        if ma[n_col] == mb[n_row]:
             print("They have the same result :D")
         else:
             print("Grr...! They have different result :-(")
-        if ma2 == mb2:
+        if sum(ma) % 2 == 0:
+            print("The parity on row is good! :D")
+        else:
+            print("The parity on row is BAD! :-(")
+        if sum(mb) % 2 == 1:
+            print("The parity on column is good! :D")
+        else:
+            print("The parity on column is BAD! :-(")
+        print("--- Second run:")
+        if ma2[n_col2] == mb2[n_row2]:
             print("They have the same result :D")
         else:
             print("Grr...! They have different result :-(")
+        if sum(ma2) % 2 == 0:
+            print("The parity on row is good! :D")
+        else:
+            print("The parity on row is BAD! :-(")
+        if sum(mb2) % 2 == 1:
+            print("The parity on column is good! :D")
+        else:
+            print("The parity on column is BAD! :-(")
         ## Optional, as it will be closed when ExitStack is closed
         magic_square.close()
-        magic_square.close()
+        magic_square2.close()
             
 def one_exec():
     with ExitStack() as global_stack:
@@ -181,8 +203,8 @@ def main():
     # print("=== Let's try another single exec")
     # one_exec()
     # Fails:
-    # print("=== Let's try two parallel exec")
-    # parallel_epr()
+    print("=== Let's try two parallel exec")
+    parallel_epr()
             
 if __name__ == '__main__':
     main()
