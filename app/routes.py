@@ -1,13 +1,12 @@
 import os
 from flask import Flask, render_template, request, session, g, redirect
-from app import app
+from magicsquare import app
 import sqlite3
 from contextlib import ExitStack
 
 from pathlib import Path
 from cqc.pythonLib import CQCConnection, qubit
 from libmagicsquare import MagicSquare
-
 
 @app.route('/')
 @app.route('/index')

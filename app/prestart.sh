@@ -4,3 +4,4 @@
 # The default backend stabilizer is buggy
 simulaqron set backend projectq
 simulaqron start -f
+python create_db.py
