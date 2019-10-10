@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div id="log">Voici vos résultats</div>
+<div id="results">Sur la case <span id="case"></span>, le joueur 1 a mis un <span id="casej1"></span>, le joueur 2 un <span id="casej2"></span>.
+<br />
+Ainsi, vous avez <span id="winlose"></span> au jeu. 
+<br /> Nous vous invitons a maintenant essayer nos deux stratégies optimales, classiques et quantiques, pour voir les differences.</div>
+Votre tableau final: 
+
+{% for item in items %}
+
+<div id="items">
+<div id="idsession" class="invisible">{{ item[0] }}</div>
+<div id="ligne" class="invisible">{{ item[1] }}</div>
+<div id="ligneval" class="invisible">{{ item[2] }}</div>
+<div id="col" class="invisible">{{ item[3] }}</div>
+<div id="colval" class="invisible">{{ item[4] }}</div>
+</div>
+
+
+<table>
+	<tbody id="tabw">
+   </tbody>
+</table>
+{% endfor %}
+
+
+<div id="boutonclassique" onclick="opticlass()">En appuyant ici, il vous sera proposé un tableau prérempli mettant en place une stratégie optimale classique (appuyez à nouveau pour retrouver votre tableau).</div>
+<div id="boutonquant">En appuyant ici, il vous sera proposé une réponse mettant en place une stratégie optimale quantique</div>
+
+
+{% endblock %}
