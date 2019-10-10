@@ -78,3 +78,10 @@ form{
 #subbuton{
     display: none;
 }
+
+#val{
+    display: none;
+}
+#moredetails{
+    display: none;
+}

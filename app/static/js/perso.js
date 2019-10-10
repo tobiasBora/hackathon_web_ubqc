@@ -11,14 +11,14 @@ function check(){
     var check=parseInt(tabcheck[0])+parseInt(tabcheck[1])+parseInt(tabcheck[2]);
     console.log(check);
     if (tab1){
-        if(check % 2===0){
+        if(check % 2===1){
             document.getElementById('subbuton').style.display="none";
         } else{
             document.getElementById('subbuton').style.display="block";
         }
     }
     else if (tab2){
-        if(check % 2===1){
+        if(check % 2===0){
                 document.getElementById('subbuton').style.display="none";
         } else{
                 document.getElementById('subbuton').style.display="block";
@@ -123,7 +123,7 @@ if (items){
 
     var results = document.getElementById('results');
     if (results){
-        document.getElementById('case').innerHTML="ligne "+lignetxt+" et colonne "+coltxt;
+        document.getElementById('case').innerHTML="ligne "+ligne+" et colonne "+col;
         document.getElementById('casej1').innerHTML=ligneval[ligne-1];
         document.getElementById('casej2').innerHTML=colval[col-1];
         if(ligneval[ligne-1]==colval[col-1]){
@@ -137,7 +137,7 @@ if (items){
 
 var test=1;
 function opticlass(){
-    var tableauopti=[[1,1,1],[1,1,1],[0,0,"X"]];
+    var tableauopti=[[1,1,0],[1,1,0],[1,1,"X"]];
     var tableauhtmlopti="";
     for(i=0;i<3;i++){
         tableauhtmlopti += "<tr>";
@@ -154,4 +154,12 @@ function opticlass(){
         tbody.innerHTML=tableauhtml ;
         test=1;
     }
+}
+
+
+function showval(){
+    document.getElementById('val').style.display="block";
+}
+function showdetails(){
+    document.getElementById('moredetails').style.display="block";
 }
