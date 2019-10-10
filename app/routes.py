@@ -2,6 +2,12 @@ import os
 from flask import Flask, render_template, request, session, g, redirect
 from app import app
 import sqlite3
+from contextlib import ExitStack
+
+from pathlib import Path
+from cqc.pythonLib import CQCConnection, qubit
+from libmagicsquare import MagicSquare
+
 
 @app.route('/')
 @app.route('/index')
@@ -47,6 +53,7 @@ def waiting2():
     x1 = request.form["select1"]
     x2 = request.form["select2"]
     x3 = request.form["select3"]
+    # Classical
     x=x1+x2+x3
     curr=conn.cursor()
     curr.execute("UPDATE session SET p2col=?, p2val=? WHERE id=? ", (numcol, x, ids))
@@ -59,4 +66,14 @@ def results(ids):
     conn = sqlite3.connect('sessions.db')
     curr=conn.cursor()
     items=curr.execute("SELECT * FROM session WHERE id=? ", (ids,))
-    return render_template('resultats.html', items=items.fetchall() , titre="Résultats")
+    items1=items.fetchone()
+    numline=int(items1[1])-1
+    numcol=int(items1[3])-1
+    # Quantum
+    with ExitStack() as global_stack:
+        magic_square = MagicSquare(global_stack, debug=True)
+        ma = magic_square.alice_measurement(numline)
+        mb = magic_square.bob_measurement(numcol)   
+        return render_template('resultats.html', items1=items1, ma=ma, mb=mb, titre="Résultats")
+
+
