@@ -12,7 +12,7 @@ To develop locally without Docker, just install all the deps (=qproject= is need
 start simulaqron:
 
 : $ simulaqron set backend projectq
-: $ simulaqron start
+: $ simulaqron start -f
 
 and then run
 
