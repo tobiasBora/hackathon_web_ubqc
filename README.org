@@ -9,6 +9,11 @@ To develop locally without Docker, just install all the deps (=qproject= is need
 
 : $ pip3 install simulaqron qproject flask
 
+start simulaqron:
+
+: $ simulaqron set backend projectq
+: $ simulaqron start
+
 and then run
 
 : $ ./development_mode_local.sh
