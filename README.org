@@ -38,9 +38,9 @@ Note that this script makes sure that only the file =docker-compose.yml= is load
 
 When you make a change, make sure to stop/restart this command.
 
-** Sources from github?
+** Deploy on the real server
 
-For now the sources are loaded in Docker by using the local folders. When we will deploy it to the actual server, it may be easier to fetch the sources directly from github. To do that, comment in =Dockerfile= the line
+First we need to make sure the github repo is public. For now the sources are loaded in Docker by using the local folders. When we will deploy it to the actual server, it should be easier to fetch the sources directly from github. To do that, comment in =Dockerfile= the line
 
 : COPY . /git
 
@@ -48,7 +48,7 @@ and uncomment in =Dockerfile= the line:
 
 : RUN git clone https://github.com/h-oll/fete_de_la_science_2019.git /git
 
-That's all!
+Then, sent to the webmaster the files =Dockerfile= and =docker-compose.yml=. That's all!
 
 ** FIXME
 
