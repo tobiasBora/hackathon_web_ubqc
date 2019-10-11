@@ -7,6 +7,19 @@ from contextlib import ExitStack
 from pathlib import Path
 from cqc.pythonLib import CQCConnection, qubit
 from libmagicsquare import MagicSquare
+import sqlite3
+
+DB_FILE=os.environ.get("MAGICSQUARE_DB_FILE") or "sessions.db"
+
+# Create DB_FILE if needed:
+print("Database file: {}".format(DB_FILE))
+folder=os.path.dirname(DB_FILE)
+if folder:
+    os.makedirs(folder, exist_ok=True)
+    conn = sqlite3.connect(DB_FILE)
+    conn.execute('CREATE TABLE IF NOT EXISTS session (id VARCHAR(256), p1line VARCHAR(256), p1val VARCHAR(256), p2col VARCHAR(256), p2val VARCHAR(256))')
+    conn.commit()
+    conn.close()
 
 @app.route('/')
 @app.route('/index')
@@ -15,7 +28,7 @@ def index():
 
 
 def waiting(idsess):
-    conn = sqlite3.connect('sessions.db')
+    conn = sqlite3.connect(DB_FILE)
     curr=conn.cursor()
     items=curr.execute("SELECT * FROM session WHERE id=? ", (idsess,))
     return render_template('waiting.html', items=items.fetchall() )
@@ -26,7 +39,7 @@ def p1():
 
 @app.route('/waiting1',methods = ["POST"])
 def waiting1():
-    conn = sqlite3.connect('sessions.db')
+    conn = sqlite3.connect(DB_FILE)
     ids = request.form["numsess"]
     numline = request.form["numline"]
     x1 = request.form["select1"]
@@ -46,7 +59,7 @@ def p2():
 
 @app.route('/waiting2',methods = ["POST"])
 def waiting2():
-    conn = sqlite3.connect('sessions.db')
+    conn = sqlite3.connect(DB_FILE)
     ids = request.form["numsess"]
     numcol = request.form["numline"]
     x1 = request.form["select1"]
@@ -62,7 +75,7 @@ def waiting2():
 
 @app.route('/results/<ids>/',methods = ["GET"])
 def results(ids):
-    conn = sqlite3.connect('sessions.db')
+    conn = sqlite3.connect(DB_FILE)
     curr=conn.cursor()
     items=curr.execute("SELECT * FROM session WHERE id=? ", (ids,))
     items1=items.fetchone()
