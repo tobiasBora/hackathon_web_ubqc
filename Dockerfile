@@ -16,7 +16,7 @@ ENV STATIC_PATH /app/static
 ## COPY line, and uncomment the line after that will
 ## clone github sources.
 COPY . /git
-# RUN git clone https://github.com/h-oll/fete_de_la_science_2019.git /git
+# RUN git clone git@github.com:tobiasBora/hackathon_web_ubqc.git /git
 
 RUN cp -r /git/app /
 

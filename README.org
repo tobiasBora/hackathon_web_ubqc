@@ -1,6 +1,6 @@
-* Fete de la science 2019
+* PEQI Hackathon 2019 (Pan European Quantum Internet)
 
-This is a basic online app to demonstrate quantum advantage in communication, that uses the magic square game.
+This is a web interface for Universal Blind Quantum Computing coded for the PEQI Hackathon 2019.
 
 ** Development
 
@@ -46,12 +46,10 @@ First we need to make sure the github repo is public. For now the sources are lo
 
 and uncomment in =Dockerfile= the line:
 
-: RUN git clone https://github.com/h-oll/fete_de_la_science_2019.git /git
+: RUN git clone git@github.com:tobiasBora/hackathon_web_ubqc.git /git
 
-Then, sent to the webmaster the files =Dockerfile= and =docker-compose.yml=. That's all!
+Then, send to the webmaster the files =Dockerfile= and =docker-compose.yml=. That's all!
 
 ** FIXME
 
-It seems that a few bugs are still present. Namely:
-- it is not possible for player 1 to submit a line with only zeros without first putting a one in one place, and then putting it back to 0
-- eventually make sure that if player 2 plays before player 1, things don't break
+The code is not written yet.
