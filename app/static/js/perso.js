@@ -20,6 +20,7 @@ class UBQC {
     send_plus_theta(id, theta_int) {
         // Will create the state on the server
         // TODO: send to server with json POST call
+        // Address: /preparationQubit
         // {
         //     'id': (0,0),
         //     'theta': 4
@@ -28,11 +29,16 @@ class UBQC {
         return true
     }
 
+    get_random_theta(id) {
+        return this.random_thetas[id]
+    }
+    
     // Step 2: create graph
     send_CZ_list(id_pair_list) {
         // Id_coupld is a list of couple [(id1, id2), (id2, id3),...]
         // that represents the graph to send.
         // TODO: send that to server
+        // Address: /preparationGraphState
         // {
         //    'entanglement_list': [
         //        ( (0,0) , (1,0) ),
@@ -65,6 +71,11 @@ class UBQC {
     // Step 4: send angle to server
     send_measurement_angle(id, theta_int) {
         // TODO: send to server
+        // Address: /measurementAngle
+        // {
+        //    'id': (0,0),
+        //    'theta': 4
+        // }
         // Return measurement
         return 0
     }
