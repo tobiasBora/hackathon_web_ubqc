@@ -1,4 +1,5 @@
 import os
+import math
 from flask import Flask, render_template, request, session, g, redirect
 from contextlib import ExitStack
 from ubqc import app
@@ -25,7 +26,7 @@ def preparationQubit():
 	idi = request.json['id']
 	
 	qubit = qubit(Serveur)
-	qubit = qubit.ROT_Z(theta)
+	qubit = qubit.rot_Z(theta*(256/math.pi))
 	serverState{idi}=qubit
 	
 	
