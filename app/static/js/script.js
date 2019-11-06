@@ -32,3 +32,6 @@ async function senddata(){
     }
 }
 
+async function send_entanglement_graph() {
+    
+}

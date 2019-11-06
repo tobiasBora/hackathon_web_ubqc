@@ -51,7 +51,9 @@ def preparationGraphState():
     global Serveur
     if not request.json or not 'entanglement_list' in request.json:
         abort(400)
-    for ((x1,y1),(x2,y2)) in request.json['entanglement_list']:
+    for couple_id in request.json['entanglement_list']:
+        (x1,y1) = tuple(couple_id[0])
+        (x2,y2) = tuple(couple_id[1])
         serverState((x1,y1)).CPHASE((x2,y2))
         
     return jsonify({'error':False}), 201
@@ -64,7 +66,7 @@ def measureAngle():
         abort(400)
         
     theta = request.json['theta']
-    idi = request.json['id']
+    idi = tuple(request.json['id'])
     
     serverState[idi].ROT_Z(theta)
     s=serverState[idi].measure()

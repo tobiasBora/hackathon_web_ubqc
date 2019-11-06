@@ -43,6 +43,8 @@ function display2(){
 
 var show3 =document.getElementById("buttonsend2");
 show3.onclick=display3;
-function display3(){
+async function display3(){
     document.getElementById("part3").style.display="flex";
+    const result = await send_entanglement_graph();
+    alert("Great, entanglement finished!")
 }
