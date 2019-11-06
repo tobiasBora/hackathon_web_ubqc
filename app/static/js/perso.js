@@ -250,9 +250,30 @@ class UBQC {
     }
 
     // Return dependencies for corrections
-    async get_corrections(id) {
+    async dependencies_X(id) {
         // TODO implement dependencies calculation
-        return (D,Dp) // D = X-dependencies, Dp = Z dependencies
+        for (v in this.V) {
+            if (this.flow[v] == id ){
+             return [DX] // DX = X-dependencies
+            }
+        }
+         
+    }
+    
+    async dependencies_Z(id) {
+        // TODO implement dependencies calculation
+        DZ = []
+        
+        for (v in get_neighbours(id) ){
+            for (u in this.V) {
+                if (this.flow[u] == v ){
+                    DZ.append(u) 
+                }
+            }
+        
+        }
+        
+        return DZ // DZ = Z-dependencies
     }
 
     // Step 3: compute recommended angles
@@ -263,7 +284,9 @@ class UBQC {
     async get_private_angles(id) {
         return this.measurement_angles_private[id]
     }
-
+    
+    
+    // compute angles phi' in BFK, theta_int correspond to phi in BFK (entered by Alice, the user)
     async get_recommended_angles(id, theta_int) {
         s_X = 0
         s_Z = 0
