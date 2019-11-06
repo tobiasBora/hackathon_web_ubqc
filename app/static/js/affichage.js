@@ -30,11 +30,13 @@ function more2(){
 
 var show2 =document.getElementById("buttonsend1");
 
-function allsend1(){
-    senddata();
+async function allsend1(){
+    const result = await senddata();
     display2();
 }
+
 show2.onclick=allsend1;
+
 function display2(){
     document.getElementById("part2").style.display="flex";
 }
