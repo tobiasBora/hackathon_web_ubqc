@@ -7,7 +7,7 @@
    you are interested on how promises work in javascript, feel free
    to read [2]. However, here is a small rule of thumb:
 
-   
+
    - When you want to create a function, use the 'async' keyword
    before the "function" keyword, that means 'the function may
    need some asynchronous calls, and is therefore asynchronous':
@@ -17,7 +17,7 @@
      return "Bob"
    }
    ```
-   
+
    - When you call an asynchronous function inside an (asynchronous)
    function, use the 'await' key word right after the equal sign:
 
@@ -46,7 +46,7 @@
    first function, and pass it the the next function. It's just a
    matter of preference! So for example, instead of creating this
    dummy function, you could have done:
-   
+
    ```
    myfunction().then(
      function(name) {
@@ -72,8 +72,8 @@
    , Param (what the javascript sent), and Response (what the server
    responded). Nice to use to check if the error is client-side or
    server-side!
-   
-   
+
+
    [1] https://stackoverflow.com/questions/2246661/ajax-without-a-callback
    [2] https://medium.com/@bluepnume/learn-about-promises-before-you-start-using-async-await-eb148164a9c8
 
@@ -91,7 +91,7 @@ async function fetchPost(url, data) {
     body: JSON.stringify(data)
   });
   // parses JSON response into native JavaScript objects
-  return await response.json(); 
+  return await response.json();
 }
 
 class UBQC {
@@ -104,12 +104,14 @@ class UBQC {
         //   The first list is the set D_x for correcting by an X.
         //   The second list is the set D_z for correcting by an Z.
         // - A measurement is either 0 or 1
-        
+
         // dict of id -> random thetas
         this.random_thetas = {}
         // List of entanglements [(id1, id2), (id2, id4),...]
         this.cz = []
         this.flow = {}
+        // dict of id -> private measurement angles
+        this.measurement_angles_private = {}
         this.layers = {}
         // dict of id -> measurement 0/1
         this.measurements = {}
@@ -145,17 +147,16 @@ class UBQC {
             return false
         }
     }
-    
+
     async construct_vertex_list(){
-        this.V = [id for q in data[id]]
-        // TODO add filling of this.inputs and this.outputs             
-            
+        this.V = [id for (q in data[id])]
+        // TODO add filling of this.inputs && this.outputs
     }
 
     async get_random_theta(id) {
         return this.random_thetas[id]
     }
-    
+
     // Step 2: create graph
     async send_CZ_list(id_pair_list) {
         // Id_coupld is a list of couple [(id1, id2), (id2, id3),...]
@@ -174,90 +175,106 @@ class UBQC {
         this.cz.concat(id_pair_list)
         return true
     }
-    
+
     async get_neighbours(id){
         neighbours = []
-        for e in this.cz{
+        for (e in this.cz){
             if ( e[0] == id ){
                 neighbours.append(e[1])
                     }
-            elif ( e[1] == id ){
+            elif (e[1] == id) {
                 neighbours.append(e[0])
-                    }   
+                    }
         }
-    }            
         return neighbours
-    
-    
-    async flow_aux(C, outputs, k):
-        
+    }
+
+
+    async flow_aux(C, outputs, k) {
+
         outP = []
         CP = []
-        for v in C{
-            neig = get_neighbours(v) 
-            if (u in  neig and u not in outputs){
-            
-            this.flow[u] = v 
-            this.layers[v] = k 
-            
-            outP.append(u)
-            CP.append(v)
+        for (v in C) {
+            neig = get_neighbours(v)
+            if ((u in neig) && (not (u in outputs))) {
+                this.flow[u] = v
+                this.layers[v] = k
+
+                outP.append(u)/
+                CP.append(v)
             }
         }
-        
-        if len(CP) == 0 {
-            if not (outputs == this.V){
+
+        if (CP.length == 0) {
+            if (not (outputs == this.V)){
                 alert("the graph has no flow")
-            } 
+            }
             return 0
         }
-        
+
         else{
-            
-            newC = [for v in C v not in Cp]
+            newC = []
+            for (v in C) {
+                if (not (v in Cp)) {
+                    newC.append(v)
+                }
+            }
             toAdd = []
             for (v in outP) {
-                if ( v in this.V ) and not (v in this.inputs){
+                if ((v in this.V ) && not (v in this.inputs)){
                     toAdd.append(v)
-                } 
+                }
             }
-            
-            newC = list(set(newC) | set(toAdd))
-            
+
+            newC = list(set(newC) | set(toAdd));
+
             flow_aux(newC, list(set(outputs) | set(outP)), k+1 )
         }
-        
-        
-        
+    }
+
     // Generate the flow (once is enough)
     async generate_flow() {
-        
         // needs previous definitions of self.input_nodes, self.output_nodes
-        
-        C =  [v for v in this.outputs if v not in this.inputs]
-        flow_aux(C,this.outputs,1) // argument of flowaux in mhalla&pedrix
-            
+        C =  []
+        for (v in this.outputs) {
+            if (not (v in this.inputs)) {
+                C.append(v)
+            }
         }
+        flow_aux(C,this.outputs,1) // argument of flowaux in mhalla&pedrix
     }
 
     // Return the flow without recomputing it
     async get_flow() {
-        return self.flow
+        return this.flow
     }
-    
+
     // Return dependencies for corrections
     async get_corrections(id) {
-    // TODO implement dependencies calculation
-    
+        // TODO implement dependencies calculation
         return (D,Dp) // D = X-dependencies, Dp = Z dependencies
     }
+
     // Step 3: compute recommended angles
-    async get_recommended_angles(id) {
-        phiP = 0
-        // TODO compute the recommenced angle from the flow
-        
-        
-        return phiP
+    async get_measurements(id) {
+        return this.measurements(id)
+    }
+
+    async get_private_angles(id) {
+        return this.measurement_angles_private[id]
+    }
+
+    async get_recommended_angles(id, theta_int) {
+        s_X = 0
+        s_Z = 0
+        for (dep_X in this.get_dependencies_X(id)) {
+            s_X = (s_X + this.get_measurements(dep_X)) % 2
+        }
+        for (dep_Z in this.get_dependencies_Z(id)) {
+            s_Z = (s_Z + this.get_measurements(dep_Z)) % 2
+        }
+        angle = Math.pow(-1, s_X) * this.get_private_angles(id) + s_Z * Math.PI
+        return angle
     }
 
     // Step 4: send angle to server
@@ -272,8 +289,8 @@ class UBQC {
         // {'measurement': 0}
         // Returns the measurement sent to the server,
         // and the corrected measurement with r
-        
-        
+
+
         return (0, 1)
     }
 }
