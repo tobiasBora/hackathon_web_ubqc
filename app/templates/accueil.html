@@ -1,6 +1,82 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>UBQC</h1>
-Let's play UBQC together!
+
+<div class= "title">Put your ids first :</div>
+<table>
+        <tbody id="tab1">
+        <tr >
+                <th>X</th>
+                <th>Y</th>
+                <th>Random Theta</th>
+                <th>Qubit type</th>
+        </tr>
+        <tr>
+                <td><input type="number" id="x1" /></td>
+                <td><input type="number" id="y1" /></td>
+                <td id="random1"></td>
+                <td><select id="qtype1"> <option value="i">input</option><option value="n">nothing</option><option value="o">output</option></select></td>
+
+
+        </tr>
+        </tbody>
+</table>
+
+<div id="buttonplus1" class="buttonacc">+</div>
+
+<div id="buttonsend1" class="buttonacc">Envoyer</div>
+
+<div id="part2" class="center">
+       <div class= "title">Lets create a graph</div>
+        <table >
+                <tbody id="tab2">
+                <tr >
+                        <th>x1</th>
+                        <th>y1</th>
+                        <th>---</th>
+                        <th>x2</th>
+                        <th>y2</th>
+                </tr>
+                <tr>
+                        <td><input type="number" name="x1" /></td>
+                        <td><input type="number" name="y1" /></td>
+                        <td>---</td>
+                        <td><input type="number" name="x2" /></td>
+                        <td><input type="number" name="y2" /></td>
+
+                </tr>
+                </tbody>
+        </table>
+
+        <div id="buttonplus2" class="buttonacc">+</div>
+
+        <div id="buttonsend2" class="buttonacc">Envoyer</div>
+
+
+</div>
+
+<div id="part3" class="center">
+        <div class= "title">Lets do the mesurement</div>
+        <table>
+                <tbody id="tab3">
+                <tr>
+                        <th>ID</th>
+                        <th>Random Theta</th>
+                        <th>Input alice(angle between 0 and 7)</th>
+                        <th>R</th>
+                        <th>Corrected angle</th>
+                        <th>Mesurement</th>
+                </tr>
+                <tr>
+                        <td id="id1"></td>
+                        <td id="randt1"></td>
+                        <td><input type="number" name="num1" /> </td>
+                        <td id="randr1"></td>
+                        <td> </td>
+                        <td id="submit1"><input type="submit" name="sub1"></td>
+                </tr>
+                </tbody>
+        </table>
+</div>
+
 {% endblock %}
