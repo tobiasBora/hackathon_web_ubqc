@@ -25,7 +25,7 @@ def preparationQubit():
         abort(400)
         
     theta = request.json['theta']
-    idi = request.json['id']
+    idi = tuple(request.json['id'])
     
     q1 = qubit(Serveur)
     # theta * pi/4 = step * 2 pi / 256
