@@ -1,4 +1,4 @@
-var data=[];
+var data1=[];
 var datapart=[];
 var x=0;
 var y=0;
@@ -6,6 +6,7 @@ var textx="";
 var texty="";
 var textteta="";
 var textqtype="";
+
 
 function senddata(){
     for (i=1; i<= tab1var;i++){
@@ -22,12 +23,12 @@ function senddata(){
         qtype=document.getElementById(textqtype).value;
         var datapart=[];
         datapart.push(xint,yint,tetaint,qtype);
-        data[i-1]=datapart;
+        data1[i-1]=datapart;
     }
 
-    for(i=0;i<data.length;i++){
-        var paire=(data[i].x,data[i].y);
-        send_plus_theta(paire, data[i][2]);
+    for(i=0;i<data1.length;i++){
+        var paire=[data1[i][0],data1[i][1]];
+        send_plus_theta(paire,data[i][2])
     }
 }
 
