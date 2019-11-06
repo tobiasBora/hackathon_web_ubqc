@@ -33,5 +33,15 @@ async function senddata(){
 }
 
 async function send_entanglement_graph() {
-    
+    var cz_list = []
+    for (i=0; i< tab2var;i++){
+        // Get all values for this line
+        x1=parseInt(document.getElementById("tab2x1"+i).value);
+        y1=parseInt(document.getElementById("tab2y1"+i).value);
+        x2=parseInt(document.getElementById("tab2x2"+i).value);
+        y2=parseInt(document.getElementById("tab2y2"+i).value);
+        // Add to cz_list
+        cz_list.push([[x1, y1], [x2, y2]]);
+    }
+    const result = await global_ubqc.send_CZ_list(cz_list);
 }

@@ -18,13 +18,15 @@ function more1(){
 var plus2 = document.getElementById("buttonplus2");
 var tab2=document.getElementById("tab2");
 plus2.onclick=more2;
-var tab2var=2;
+var tab2var=0;
 
 function more2(){
-    tab2.innerHTML+='<tr><td><input type="number" name="x1'+tab2var+'" /></td><td><input type="number" name="y1'+tab2var+'" /></td><td>---</td><td><input type="number" name="x2'+tab2var+'" /></td><td><input type="number" name="y2'+tab2var+'" /></td></tr>';
+    tab2.innerHTML+='<tr><td><input type="number" id="tab2x1'+tab2var+'" /></td><td><input type="number" id="tab2y1'+tab2var+'" /></td><td>---</td><td><input type="number" id="tab2x2'+tab2var+'" /></td><td><input type="number" id="tab2y2'+tab2var+'" /></td></tr>';
     tab2var ++;
 }
 
+// We add a first line by default.
+more2()
 
 //// sert a rien sauf pour presenter
 

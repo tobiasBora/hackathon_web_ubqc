@@ -189,6 +189,10 @@ class UBQC {
         // }
         // Return:
         // {'error': False}
+        const data = await fetchPost('/preparationGraphState',
+                                     {
+                                         entanglement_list: id_pair_list
+                                     })
         this.cz.concat(id_pair_list)
         return true
     }

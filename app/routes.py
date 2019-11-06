@@ -39,7 +39,7 @@ def preparationQubit():
     # simulaqron set backend projectq
     # simulaqron stop
     # simulaqron start
-    q1 = q1.rot_Z(step=int(theta*32) % 256)
+    q1.rot_Z(step=int(theta*32) % 256)
     serverState[idi]=q1
         
     return jsonify({'error':False}), 201
@@ -52,9 +52,13 @@ def preparationGraphState():
     if not request.json or not 'entanglement_list' in request.json:
         abort(400)
     for couple_id in request.json['entanglement_list']:
-        (x1,y1) = tuple(couple_id[0])
-        (x2,y2) = tuple(couple_id[1])
-        serverState((x1,y1)).CPHASE((x2,y2))
+        id1 = tuple(couple_id[0])
+        id2 = tuple(couple_id[1])
+        log(serverState)
+        ## Works, but useless
+        # serverState[id1].rot_Z(42)
+        ## Fails... but WHY?
+        serverState[id1].CPHASE(serverState[id2])
         
     return jsonify({'error':False}), 201
     
