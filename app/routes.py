@@ -3,6 +3,7 @@ import math
 from flask import Flask, render_template, request, session, g, redirect, abort, jsonify
 from contextlib import ExitStack
 from ubqc import app
+import sys
 
 from pathlib import Path
 from cqc.pythonLib import CQCConnection, qubit
@@ -17,6 +18,9 @@ global_stack = ExitStack()
 serverState={}
 Serveur=global_stack.enter_context( CQCConnection('Bob'))
 
+def log(msg):
+    print(msg, file=sys.stdout, flush=True)
+
 @app.route('/preparationQubit', methods=['POST'])    
 def preparationQubit():
     global serverState
@@ -26,7 +30,7 @@ def preparationQubit():
         
     theta = request.json['theta']
     idi = tuple(request.json['id'])
-    
+    log("[preparationQubit] idi: {}".format(idi))
     q1 = qubit(Serveur)
     # theta * pi/4 = step * 2 pi / 256
     # => step = theta * 32
