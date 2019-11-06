@@ -1,0 +1,70 @@
+html{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'PT Sans', sans-serif;
+    color:#191919
+}
+
+a{
+    text-decoration: none;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+table{
+    border:1px solid #191919;
+    text-align:center;
+}
+
+#log{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+td{
+    min-width: 50px;
+    border: 0.5px solid #191919;
+}
+
+tr{
+    height: 50px;
+}
+
+
+.center{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.title{
+    margin-bottom: 25px;
+    max-width: 400px;
+}
+
+.buttonacc{
+    border: 1px #191919 solid;
+    padding:5px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+
+input[type=number]{
+    border:none;
+}
+
+#part2{
+    display:none;
+}
+
+#part3{
+    display:none;
+}
