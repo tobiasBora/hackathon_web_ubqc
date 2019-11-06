@@ -106,8 +106,10 @@ async function fetchPost(url, data) {
     // parses JSON response into native JavaScript objects
     return await response.json();
 }
-  
-module.exports = class UBQC {
+
+// # Why use exports?
+// module.exports =
+class UBQC {
     constructor() {
         // - The ID of qubits will be couples of integer (int, int)
         // - The thetas_int are angles represented by multiple of
