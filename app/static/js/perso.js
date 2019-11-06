@@ -196,8 +196,9 @@ class UBQC {
         for v in C{
             neig = get_neighbours(v) 
             if (u in  neig and u not in outputs){
-            this.flow[u] = v // g(u) = v
-            this.layers[v] = k // l(v) = k
+            
+            this.flow[u] = v 
+            this.layers[v] = k 
             
             outP.append(u)
             CP.append(v)
@@ -208,7 +209,7 @@ class UBQC {
             if not (outputs == this.V){
                 alert("the graph has no flow")
             } 
-            return 0   
+            return 0
         }
         
         else{
@@ -223,21 +224,20 @@ class UBQC {
             
             newC = list(set(newC) | set(toAdd))
             
-            flow_aux(list(set(outputs) | set(outP)), newC, k+1 )
+            flow_aux(newC, list(set(outputs) | set(outP)), k+1 )
         }
+        
+        
+        
     // Generate the flow (once is enough)
     async generate_flow() {
-        // TODO: compute the flow
         
         // needs previous definitions of self.input_nodes, self.output_nodes
         
         C =  [v for v in this.outputs if v not in this.inputs]
         flow_aux(C,this.outputs,1) // argument of flowaux in mhalla&pedrix
-        
-
             
         }
-        return self.flow
     }
 
     // Return the flow without recomputing it
@@ -247,6 +247,8 @@ class UBQC {
     
     // Return dependencies for corrections
     async get_corrections(id) {
+    // TODO implement dependencies calculation
+    
         return (D,Dp) // D = X-dependencies, Dp = Z dependencies
     }
     // Step 3: compute recommended angles
