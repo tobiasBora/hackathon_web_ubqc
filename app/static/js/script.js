@@ -28,7 +28,7 @@ function senddata(){
 
     for(i=0;i<data1.length;i++){
         var paire=[data1[i][0],data1[i][1]];
-        send_plus_theta(paire,data[i][2])
+        global_ubqc.send_plus_theta(paire,data[i][2])
     }
 }
 

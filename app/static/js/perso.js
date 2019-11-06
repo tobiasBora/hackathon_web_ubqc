@@ -344,18 +344,20 @@ class UBQC {
 
 
 alert("Javascript loaded, let's start UBQC and send one qubit!")
-// Entry point of the page
-async function start_ubqc() {
-    let ubqc = new UBQC()
-    // Just for demo, notice the "await" keyword!
-    const result = await ubqc.send_plus_theta((0,0), 4)
-    if (result) {
-        alert("There is no error :D")
-    } else {
-        alert("There is an error :(")
-    }
-    alert("Thanks for playing with my game !")
-}
+var global_ubqc = new UBQC()
 
-start_ubqc()
+// // Entry point of the page
+// async function start_ubqc() {
+//     let ubqc = new UBQC()
+//     // Just for demo, notice the "await" keyword!
+//     const result = await ubqc.send_plus_theta((0,0), 4)
+//     if (result) {
+//         alert("There is no error :D")
+//     } else {
+//         alert("There is an error :(")
+//     }
+//     alert("Thanks for playing with my game !")
+// }
+
+// start_ubqc()
 
