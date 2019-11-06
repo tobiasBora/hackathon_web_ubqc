@@ -99,7 +99,8 @@ class UBQC {
         // - The ID of qubits will be couples of integer (int, int)
         // - The thetas_int are angles represented by multiple of
         //   pi/4.
-        // - a flow is a dictionnary mapping ID to a couple of lists.
+        // - a flow is a dictionnary mapping ID to g(ID)
+        // dependencies(Id) returns two lists:
         //   The first list is the set D_x for correcting by an X.
         //   The second list is the set D_z for correcting by an Z.
         // - A measurement is either 0 or 1
@@ -109,8 +110,12 @@ class UBQC {
         // List of entanglements [(id1, id2), (id2, id4),...]
         this.cz = []
         this.flow = {}
+        this.layers = {}
         // dict of id -> measurement 0/1
         this.measurements = {}
+        this.V = [] // list of vertices in graph
+        this.inputs = [] // list of designated input vertices
+        this.outputs = []  // list of designated outputs
     }
 
     // Step 1: send qubits
@@ -140,6 +145,12 @@ class UBQC {
             return false
         }
     }
+    
+    async construct_vertex_list(){
+        this.V = [id for q in data[id]]
+        // TODO add filling of this.inputs and this.outputs             
+            
+    }
 
     async get_random_theta(id) {
         return this.random_thetas[id]
@@ -163,10 +174,69 @@ class UBQC {
         this.cz.concat(id_pair_list)
         return true
     }
-
+    
+    async get_neighbours(id){
+        neighbours = []
+        for e in this.cz{
+            if ( e[0] == id ){
+                neighbours.append(e[1])
+                    }
+            elif ( e[1] == id ){
+                neighbours.append(e[0])
+                    }   
+        }
+    }            
+        return neighbours
+    
+    
+    async flow_aux(C, outputs, k):
+        
+        outP = []
+        CP = []
+        for v in C{
+            neig = get_neighbours(v) 
+            if (u in  neig and u not in outputs){
+            this.flow[u] = v // g(u) = v
+            this.layers[v] = k // l(v) = k
+            
+            outP.append(u)
+            CP.append(v)
+            }
+        }
+        
+        if len(CP) == 0 {
+            if not (outputs == this.V){
+                alert("the graph has no flow")
+            } 
+            return 0   
+        }
+        
+        else{
+            
+            newC = [for v in C v not in Cp]
+            toAdd = []
+            for (v in outP) {
+                if ( v in this.V ) and not (v in this.inputs){
+                    toAdd.append(v)
+                } 
+            }
+            
+            newC = list(set(newC) | set(toAdd))
+            
+            flow_aux(list(set(outputs) | set(outP)), newC, k+1 )
+        }
     // Generate the flow (once is enough)
     async generate_flow() {
         // TODO: compute the flow
+        
+        // needs previous definitions of self.input_nodes, self.output_nodes
+        
+        C =  [v for v in this.outputs if v not in this.inputs]
+        flow_aux(C,this.outputs,1) // argument of flowaux in mhalla&pedrix
+        
+
+            
+        }
         return self.flow
     }
 
@@ -174,12 +244,18 @@ class UBQC {
     async get_flow() {
         return self.flow
     }
-
+    
+    // Return dependencies for corrections
+    async get_corrections(id) {
+        return (D,Dp) // D = X-dependencies, Dp = Z dependencies
+    }
     // Step 3: compute recommended angles
-    async get_recommended_angles(id, theta_int) {
-        angle = 0
+    async get_recommended_angles(id) {
+        phiP = 0
         // TODO compute the recommenced angle from the flow
-        return angle
+        
+        
+        return phiP
     }
 
     // Step 4: send angle to server
@@ -192,8 +268,10 @@ class UBQC {
         // }
         // Return measurement:
         // {'measurement': 0}
-        // Returns the measurement sent by the server,
+        // Returns the measurement sent to the server,
         // and the corrected measurement with r
+        
+        
         return (0, 1)
     }
 }
