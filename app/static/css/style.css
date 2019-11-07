@@ -20,6 +20,7 @@ body{
 table{
     border:1px solid #191919;
     text-align:center;
+    width: 100%;
 }
 
 #log{
@@ -58,7 +59,10 @@ tr{
 
 
 input[type=number]{
-    border:none;
+    height: 30px;
+    border: 1px grey dotted;
+    text-align: center;
+    transform: scale(1.5);
 }
 
 #part2{
