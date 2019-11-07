@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, session, g, redirect, abort, 
 from contextlib import ExitStack
 from ubqc import app
 import sys
+from simulaqron.network import Network
 
 from pathlib import Path
 from cqc.pythonLib import CQCConnection, qubit
@@ -11,6 +12,14 @@ from cqc.pythonLib import CQCConnection, qubit
 @app.route('/')
 @app.route('/index')
 def index():
+    # We reinitialize the server to make sure we don't run out of qubits
+    # Setup the network
+    nodes = ["Alice", "Bob"]
+    topology = {"Alice": ["Bob"], "Bob": ["Alice"]}
+    network = Network(name="default", nodes=nodes, topology=topology, force=True)
+    # Start the network
+    network.start()
+    
     return render_template('accueil.html', titre='Accueil')
 
 
@@ -56,7 +65,8 @@ def preparationGraphState():
         id2 = tuple(couple_id[1])
         log(serverState)
         ## Works, but useless
-        # serverState[id1].rot_Z(42)
+        serverState[id1].rot_Z(42)
+        serverState[id2].rot_Z(42)
         ## Fails... but WHY?
         serverState[id1].CPHASE(serverState[id2])
         
