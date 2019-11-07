@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+<br /><br />
 
-<div class= "title">Put your ids first :</div>
+<div class= "title">Lets prepare the Qbits first. Put the x and y of each one on the graph.</div>
 <table>
         <tbody id="tab1">
         <tr >
@@ -12,8 +13,8 @@
                 <th>Qubit type</th>
         </tr>
         <tr>
-                <td><input type="number" id="x1" /></td>
-                <td><input type="number" id="y1" /></td>
+                <td><input type="number" min="0" max="100" id="x1" /></td>
+                <td><input type="number" min="0" max="100" id="y1" /></td>
                 <td id="random1"></td>
                 <td><select id="qtype1"> <option value="i">input</option><option value="n">nothing</option><option value="o">output</option></select></td>
 
@@ -27,15 +28,15 @@
 <div id="buttonsend1" class="buttonacc">Envoyer</div>
 
 <div id="part2" class="center">
+        <br />
        <div class= "title">Lets create a graph</div>
         <table >
                 <tbody id="tab2">
                 <tr >
-                        <th>x1</th>
-                        <th>y1</th>
-                        <th>---</th>
-                        <th>x2</th>
-                        <th>y2</th>
+                        <th>Qbit 1</th>
+                        <th>----</th>
+                        <th>Qbit 2</th>
+
                 </tr>
                 </tbody>
         </table>
@@ -48,6 +49,7 @@
 </div>
 
 <div id="part3" class="center">
+                <br />
         <div class= "title">Lets do the mesurement</div>
         <table>
                 <tbody id="tab3">
@@ -62,7 +64,7 @@
                 <tr>
                         <td id="id1"></td>
                         <td id="randt1"></td>
-                        <td><input type="number" name="num1" /> </td>
+                        <td><input type="number" min="0" max="7" name="num1" /> </td>
                         <td id="randr1"></td>
                         <td> </td>
                         <td id="submit1"><input type="submit" name="sub1"></td>
